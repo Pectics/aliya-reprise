@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>LoRA VAD-BERT Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg">
+      <div class="grain"></div>
+    </div>
+    <header class="top">
+      <div class="brand">
+        <div class="pill">LoRA Lab</div>
+        <h1>VAD-BERT Training Monitor</h1>
+        <p>Live curves for loss and alignment metrics.</p>
+      </div>
+      <div class="status" id="status">
+        <div class="dot"></div>
+        <span class="label">Idle</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel control">
+        <h2>Run Control</h2>
+        <div class="grid">
+          <label class="field">
+            <span>Teacher Model</span>
+            <input id="teacherModel" type="text" value="RobroKools/vad-bert" />
+          </label>
+          <label class="field">
+            <span>Student Model</span>
+            <input id="studentModel" type="text" value="FacebookAI/xlm-roberta-base" />
+          </label>
+          <label class="field">
+            <span>Target Modules</span>
+            <input
+              id="targetModules"
+              type="text"
+              placeholder="query,key,value"
+              value="query,key,value"
+            />
+          </label>
+          <label class="field">
+            <span>Resume From</span>
+            <input id="resumeFrom" type="text" placeholder="train/lora_vad_bert/step-5000" />
+          </label>
+          <label class="field">
+            <span>Output Dir</span>
+            <input id="outputDir" type="text" value="train/lora_vad_bert" />
+          </label>
+          <label class="field">
+            <span>Max Steps</span>
+            <input id="maxSteps" type="number" value="5000" min="1" />
+          </label>
+          <label class="field">
+            <span>Batch Size</span>
+            <input id="batchSize" type="number" value="16" min="1" />
+          </label>
+          <label class="field">
+            <span>Grad Accum</span>
+            <input id="gradAccum" type="number" value="2" min="1" />
+          </label>
+          <label class="field">
+            <span>Learning Rate</span>
+            <input id="learningRate" type="number" value="0.0002" step="0.0001" />
+          </label>
+          <label class="field">
+            <span>Warmup Steps</span>
+            <input id="warmupSteps" type="number" value="400" min="0" />
+          </label>
+          <label class="field">
+            <span>Parallel Ratio</span>
+            <input id="parallelRatio" type="number" value="0.6" step="0.05" min="0" max="1" />
+          </label>
+          <label class="field">
+            <span>Lambda ZH</span>
+            <input id="lambdaZh" type="number" value="1.2" step="0.1" min="0" />
+          </label>
+          <label class="field">
+            <span>Lambda Align</span>
+            <input id="lambdaAlign" type="number" value="0.5" step="0.1" min="0" />
+          </label>
+          <label class="field">
+            <span>Lambda Retain</span>
+            <input id="lambdaRetain" type="number" value="1.0" step="0.1" min="0" />
+          </label>
+          <label class="field">
+            <span>LoRA r</span>
+            <input id="loraR" type="number" value="32" min="1" />
+          </label>
+          <label class="field">
+            <span>LoRA Alpha</span>
+            <input id="loraAlpha" type="number" value="64" min="1" />
+          </label>
+          <label class="field">
+            <span>LoRA Dropout</span>
+            <input id="loraDropout" type="number" value="0.05" step="0.01" min="0" max="0.5" />
+          </label>
+          <label class="field">
+            <span>Shuffle Buffer</span>
+            <input id="shuffleBuffer" type="number" value="4096" min="0" />
+          </label>
+          <label class="field">
+            <span>Eval Every</span>
+            <input id="evalEvery" type="number" value="200" min="0" />
+          </label>
+          <label class="field">
+            <span>Save Every</span>
+            <input id="saveEvery" type="number" value="200" min="0" />
+          </label>
+          <label class="field">
+            <span>Max Length</span>
+            <input id="maxLength" type="number" value="128" min="8" />
+          </label>
+          <label class="field">
+            <span>Min Chars</span>
+            <input id="minChars" type="number" value="2" min="0" />
+          </label>
+          <label class="field">
+            <span>Data Zip</span>
+            <input id="dataZip" type="text" value="train/en-zh_cn.txt.zip" />
+          </label>
+          <label class="field">
+            <span>EN File</span>
+            <input id="enFile" type="text" value="OpenSubtitles.en-zh_cn.en" />
+          </label>
+          <label class="field">
+            <span>ZH File</span>
+            <input id="zhFile" type="text" value="OpenSubtitles.en-zh_cn.zh_cn" />
+          </label>
+          <label class="field">
+            <span>Precision</span>
+            <select id="dtype">
+              <option value="fp32">fp32</option>
+              <option value="fp16">fp16</option>
+              <option value="bf16">bf16</option>
+            </select>
+          </label>
+          <label class="field checkbox">
+            <span>Train Classifier</span>
+            <input id="trainClassifier" type="checkbox" checked />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Extra Args</span>
+          <input id="extraArgs" type="text" placeholder="--target_modules q_proj,k_proj,v_proj,out_proj" />
+        </label>
+
+        <label class="field">
+          <span>Args Preview</span>
+          <textarea id="argsPreview" spellcheck="false" readonly></textarea>
+        </label>
+
+        <div class="buttons">
+          <button class="primary" id="startBtn">Start Training</button>
+          <button class="ghost" id="stopBtn">Stop</button>
+        </div>
+        <div class="meta">
+          <div>
+            <span class="meta-label">Command</span>
+            <span class="mono" id="commandText">-</span>
+          </div>
+          <div>
+            <span class="meta-label">PID</span>
+            <span class="mono" id="pidText">-</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel chart">
+        <div class="panel-header">
+          <h2>Loss Curves</h2>
+          <div class="legend" id="lossLegend"></div>
+        </div>
+        <div class="chart-controls">
+          <label class="toggle">
+            <span>Smoothing</span>
+            <input id="smoothLoss" type="range" min="1" max="15" value="1" />
+          </label>
+        </div>
+        <canvas id="lossChart"></canvas>
+      </section>
+
+      <section class="panel chart">
+        <div class="panel-header">
+          <h2>Alignment Metrics</h2>
+          <div class="legend" id="evalLegend"></div>
+        </div>
+        <div class="chart-controls">
+          <label class="toggle">
+            <span>Smoothing</span>
+            <input id="smoothEval" type="range" min="1" max="15" value="1" />
+          </label>
+        </div>
+        <canvas id="evalChart"></canvas>
+      </section>
+
+      <section class="panel log">
+        <div class="panel-header">
+          <h2>Training Log</h2>
+          <label class="toggle">
+            <input type="checkbox" id="autoScroll" checked />
+            <span>Auto-scroll</span>
+          </label>
+        </div>
+        <pre id="logOutput"></pre>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

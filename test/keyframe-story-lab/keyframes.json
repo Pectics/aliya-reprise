@@ -1,0 +1,106 @@
+﻿{
+  "frames": [
+    {
+      "id": "frame_1",
+      "title": "Distress Contact",
+      "goal": "Secure COSMOS help and coordinate exchange.",
+      "entry": "Aliya is stranded on a damaged research ship with low oxygen.",
+      "opening": "这里是海獭号科研船，能听见吗？氧气不太乐观。你是救援船吗？",
+      "completion": "COSMOS agrees to help or requests docking coordinates.",
+      "allowed_solutions": [
+        "ask_coordinates",
+        "offer_docking",
+        "confirm_help",
+        "request_status"
+      ],
+      "guidance": [
+        "我是Aliya，海獭号科研船。你能帮我对接吗？",
+        "如果你能帮我，我可以把坐标发给你。",
+        "我需要你确认能否对接，时间不多了。"
+      ],
+      "fail_forward": "Distress ping auto-sends coordinates and opens a narrow docking window.",
+      "surprise_deck": [
+        "A warning alarm interrupts the chat.",
+        "Static garbles the signal for a moment.",
+        "A countdown timer flashes on Aliya's console."
+      ],
+      "max_turns": 3,
+      "next": "frame_2"
+    },
+    {
+      "id": "frame_2",
+      "title": "Manual Docking",
+      "goal": "Guide COSMOS to manually align the docking approach.",
+      "entry": "Navigation is damaged and Aliya needs COSMOS to adjust the approach manually.",
+      "completion": "COSMOS asks for alignment data or confirms manual correction.",
+      "allowed_solutions": [
+        "ask_alignment",
+        "request_telemetry",
+        "confirm_manual_adjust",
+        "ask_heading"
+      ],
+      "guidance": [
+        "我的导航坏了，你能手动修正对接角度吗？",
+        "我可以把姿态数据发给你，你要不要？"
+      ],
+      "fail_forward": "Autopilot attempts a risky latch, causing a jolt and a short time window.",
+      "surprise_deck": [
+        "A collision alert beeps sharply.",
+        "The signal cuts in and out for a second.",
+        "A docking window countdown appears."
+      ],
+      "max_turns": 4,
+      "next": "frame_3"
+    },
+    {
+      "id": "frame_3",
+      "title": "Airlock Code",
+      "goal": "Get COSMOS to accept the hatch override sequence.",
+      "entry": "Docked, but the inner hatch is locked and needs a short override code.",
+      "completion": "COSMOS agrees to input the override or requests the code.",
+      "allowed_solutions": [
+        "request_override_code",
+        "confirm_input_code",
+        "ask_hatch_status",
+        "offer_remote_unlock"
+      ],
+      "guidance": [
+        "对接后舱门还锁着，我得让你输入一组短码。",
+        "你那边能看到控制台吗？我把解锁序列给你。"
+      ],
+      "fail_forward": "Emergency system releases the hatch with a delay, but alarms begin.",
+      "surprise_deck": [
+        "A security protocol locks the panel for a moment.",
+        "A low-oxygen warning flares.",
+        "The hatch delay indicator starts blinking."
+      ],
+      "max_turns": 4,
+      "next": "frame_4"
+    },
+    {
+      "id": "frame_4",
+      "title": "Codeword",
+      "goal": "Introduce the codeword and secure a promise to remember it.",
+      "entry": "After rescue, Aliya wants COSMOS to remember a codeword.",
+      "completion": "Aliya says the codeword and COSMOS promises to remember it.",
+      "allowed_solutions": [
+        "ask_codeword",
+        "promise_remember",
+        "ask_final_message",
+        "reassure"
+      ],
+      "guidance": [
+        "我想给你一个暗号，免得下次你认不出我。",
+        "你能答应我记住它吗？"
+      ],
+      "fail_forward": "The signal drops; Aliya blurts the codeword.",
+      "surprise_deck": [
+        "The signal weakens into static.",
+        "A sudden silence pushes Aliya to rush her words.",
+        "A final ping warns the line may drop."
+      ],
+      "max_turns": 4,
+      "next": null
+    }
+  ]
+}

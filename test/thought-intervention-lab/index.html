@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stepwise Thought Lab</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    <header class="hero">
+      <div class="eyebrow">Interactive Thought Editing</div>
+      <h1>Stepwise Thought Lab</h1>
+      <p class="lead">
+        Generate one token at a time, edit the thinking, and see how the final reply shifts.
+      </p>
+    </header>
+
+    <main class="grid">
+      <section class="panel input-panel">
+        <h2>Prompt</h2>
+        <textarea id="prompt" rows="4" placeholder="Ask the model something."></textarea>
+        <div class="row">
+          <button id="startBtn" class="primary">Start Session</button>
+          <button id="resetBtn" class="ghost">Reset</button>
+        </div>
+        <div class="status">
+          <span id="sessionStatus">No session</span>
+          <span id="phaseStatus">Waiting</span>
+        </div>
+      </section>
+
+      <section class="panel thinking-panel">
+        <div class="panel-header">
+          <h2>Thinking (editable)</h2>
+          <div class="row">
+            <label class="check">
+              <input id="closeThink" type="checkbox">
+              <span>Close </think> on apply</span>
+            </label>
+          </div>
+        </div>
+        <textarea id="thinking" rows="12" placeholder="Thinking tokens appear here. Edit to intervene."></textarea>
+        <div class="row">
+          <button id="applyBtn">Apply Thinking</button>
+        </div>
+      </section>
+
+      <section class="panel content-panel">
+        <h2>Reply</h2>
+        <textarea id="content" rows="12" placeholder="Model reply appears here." readonly></textarea>
+      </section>
+
+      <section class="panel controls-panel">
+        <h2>Step Controls</h2>
+        <p class="hint">
+          Press the Right Arrow key or click Step to generate exactly one token.
+        </p>
+        <div class="row">
+          <button id="stepBtn" class="primary">Step Token</button>
+          <button id="endThinkBtn" class="ghost">End Thinking</button>
+        </div>
+        <div class="legend">
+          <div><span class="dot think"></span> Thinking phase</div>
+          <div><span class="dot reply"></span> Reply phase</div>
+          <div><span class="dot done"></span> Finished</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Tip: Edit the thinking box, click Apply, then continue stepping to see how the reply shifts.
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

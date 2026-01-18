@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Emobank VAD Align Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg">
+      <div class="grain"></div>
+    </div>
+    <header class="top">
+      <div class="brand">
+        <div class="pill">Emobank Lab</div>
+        <h1>Emobank Finetune Monitor</h1>
+        <p>Full-parameter VAD regression for XLM-R.</p>
+      </div>
+      <div class="status" id="status">
+        <div class="dot"></div>
+        <span class="label">Idle</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel control">
+        <h2>Run Control</h2>
+        <div class="grid">
+          <label class="field">
+            <span>Model Name</span>
+            <input id="modelName" type="text" value="FacebookAI/xlm-roberta-base" />
+          </label>
+          <label class="field">
+            <span>Output Dir</span>
+            <input id="outputDir" type="text" value="train/xlm_roberta_emobank" />
+          </label>
+          <label class="field">
+            <span>Data Path</span>
+            <input id="dataPath" type="text" value="train/roberta_vad_align/emobank.csv" />
+          </label>
+          <label class="field">
+            <span>Train Split</span>
+            <input id="trainSplit" type="text" value="train" />
+          </label>
+          <label class="field">
+            <span>Eval Split</span>
+            <input id="evalSplit" type="text" value="test" />
+          </label>
+          <label class="field">
+            <span>Epochs</span>
+            <input id="epochs" type="number" value="3" min="1" />
+          </label>
+          <label class="field">
+            <span>Batch Size</span>
+            <input id="batchSize" type="number" value="16" min="1" />
+          </label>
+          <label class="field">
+            <span>Grad Accum</span>
+            <input id="gradAccum" type="number" value="1" min="1" />
+          </label>
+          <label class="field">
+            <span>Learning Rate</span>
+            <input id="learningRate" type="number" value="0.00002" step="0.00001" />
+          </label>
+          <label class="field">
+            <span>Weight Decay</span>
+            <input id="weightDecay" type="number" value="0.01" step="0.01" min="0" />
+          </label>
+          <label class="field">
+            <span>Warmup Steps</span>
+            <input id="warmupSteps" type="number" value="100" min="0" />
+          </label>
+          <label class="field">
+            <span>Max Length</span>
+            <input id="maxLength" type="number" value="128" min="8" />
+          </label>
+          <label class="field">
+            <span>Eval Every Steps</span>
+            <input id="evalEverySteps" type="number" value="0" min="0" />
+          </label>
+          <label class="field">
+            <span>Seed</span>
+            <input id="seed" type="number" value="42" min="1" />
+          </label>
+          <label class="field">
+            <span>Num Labels</span>
+            <input id="numLabels" type="number" value="3" min="1" />
+          </label>
+          <label class="field">
+            <span>Precision</span>
+            <select id="dtype">
+              <option value="fp32">fp32</option>
+              <option value="fp16">fp16</option>
+              <option value="bf16">bf16</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Extra Args</span>
+          <input id="extraArgs" type="text" placeholder="--eval_every_steps 200" />
+        </label>
+
+        <label class="field">
+          <span>Args Preview</span>
+          <textarea id="argsPreview" spellcheck="false" readonly></textarea>
+        </label>
+
+        <div class="buttons">
+          <button class="primary" id="startBtn">Start Training</button>
+          <button class="ghost" id="stopBtn">Stop</button>
+        </div>
+        <div class="meta">
+          <div>
+            <span class="meta-label">Command</span>
+            <span class="mono" id="commandText">-</span>
+          </div>
+          <div>
+            <span class="meta-label">PID</span>
+            <span class="mono" id="pidText">-</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel chart">
+        <div>
+          <div class="panel-header">
+            <h2>Eval Metrics</h2>
+            <div class="legend" id="evalLegend"></div>
+          </div>
+          <div class="chart-controls">
+            <label class="toggle">
+              <span>Smoothing</span>
+              <input id="smoothEval" type="range" min="1" max="15" value="1" />
+            </label>
+          </div>
+          <canvas id="evalChart"></canvas>
+        </div>
+
+        <br><br>
+
+        <div class="log">
+          <div class="panel-header">
+            <h2>Training Log</h2>
+            <label class="toggle">
+              <input type="checkbox" id="autoScroll" checked />
+              <span>Auto-scroll</span>
+            </label>
+          </div>
+          <pre id="logOutput"></pre>
+        </div>
+
+      </section>
+
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

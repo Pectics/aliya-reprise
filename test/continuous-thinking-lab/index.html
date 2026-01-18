@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Continuous Thinking Lab</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    <header class="hero">
+      <div class="eyebrow">Thought Intervention Test</div>
+      <h1>Continuous Thinking Lab</h1>
+      <p class="lead">
+        Let the model think until it reaches </think>, pause to edit, then continue the thinking loop.
+      </p>
+    </header>
+
+    <main class="grid">
+      <section class="panel input-panel">
+        <h2>Prompt</h2>
+        <textarea id="systemPrompt" rows="3" placeholder="Optional system prompt."></textarea>
+        <textarea id="prompt" rows="4" placeholder="Ask the model something."></textarea>
+        <div class="row">
+          <button id="startBtn" class="primary">Start & Think</button>
+          <button id="resetBtn" class="ghost">Reset</button>
+        </div>
+        <div class="status">
+          <span id="sessionStatus">No session</span>
+          <span id="phaseStatus">Waiting</span>
+        </div>
+      </section>
+
+      <section class="panel thinking-panel">
+        <div class="panel-header">
+          <h2>Thinking (editable)</h2>
+          <span id="pauseHint" class="chip">Idle</span>
+        </div>
+        <textarea id="thinking" rows="12" placeholder="Thinking tokens appear here. Edit to intervene."></textarea>
+        <div class="row">
+          <button id="applyBtn">Apply Changes</button>
+          <button id="applyContinueBtn" class="primary">Apply + Continue</button>
+        </div>
+      </section>
+
+      <section class="panel reply-panel">
+        <h2>Reply Preview (not stored)</h2>
+        <textarea id="reply" rows="10" placeholder="Previewed reply appears here." readonly></textarea>
+      </section>
+
+      <section class="panel controls-panel">
+        <h2>Controls</h2>
+        <p class="hint">
+          Click Think to run until </think>. Use Step for single-token increments.
+        </p>
+        <div class="row">
+          <button id="thinkBtn" class="primary">Think Until Pause</button>
+          <button id="stepBtn" class="ghost">Step Token</button>
+        </div>
+        <label class="check">
+          <input id="allowEndThink" type="checkbox" checked>
+          <span>Allow </think> to pause</span>
+        </label>
+        <label class="check">
+          <input id="allowEos" type="checkbox" checked>
+          <span>Allow EOS to stop</span>
+        </label>
+        <div class="legend">
+          <div><span class="dot think"></span> Thinking</div>
+          <div><span class="dot done"></span> Paused at </think></div>
+          <div><span class="dot reply"></span> Finished</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Tip: Edit the thought, click Apply + Continue, and see how the next thinking segment changes.
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

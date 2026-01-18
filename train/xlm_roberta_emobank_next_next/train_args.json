@@ -1,0 +1,18 @@
+{
+  "batch_size": 16,
+  "data_path": "train/roberta_vad_align/emobank.csv",
+  "dtype": "fp32",
+  "epochs": 3,
+  "eval_every_steps": 50,
+  "eval_split": "test",
+  "grad_accum_steps": 4,
+  "learning_rate": 1e-05,
+  "max_length": 1024,
+  "model_name": "train/xlm_roberta_emobank_next",
+  "num_labels": 3,
+  "output_dir": "train/xlm_roberta_emobank_next_next",
+  "seed": 42,
+  "train_split": "train",
+  "warmup_steps": 50,
+  "weight_decay": 0.01
+}
